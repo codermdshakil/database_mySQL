@@ -38,3 +38,11 @@ FROM Employee
 WHERE Age > 10
 LIMIT 3, 2; -- 3 means OFFSET মানে ৩ টা বাদ দাও  , 2  means দুই টা  দেখাও  
 
+-- Summary
+-- DISTNICT - output এর সময় Duplicate value remove করে দেখায়
+-- ORDER BY - ব্যাবহার করে intiger value Assending and Dessending order a Print করা যায়
+-- OFFSET - ব্যাবহার করে কত value এর পরের value গুলা দেখতে চাই তা বলে দেই
+-- LIMIT - ব্যাবহার করে কত গুলা দেখতে চাই  
+-- shortcut of use OFFSET + LIMIT 
+-- LIMIT 3, 2; [3 means OFFSET, 2 means LIMIT]
+
