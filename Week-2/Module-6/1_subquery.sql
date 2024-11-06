@@ -26,3 +26,16 @@ WHERE DEPARTMENT_ID = (
 	FROM departments
 	WHERE DEPARTMENT_NAME = "Marketing"
 );
+
+-- IT Department এ কয়জন Employees আছে 
+-- Count IT departments employees
+SELECT COUNT(*) AS Members
+FROM EMPLOYEES
+
+
+WHERE DEPARTMENT_ID = (
+	SELECT DEPARTMENT_ID
+	FROM DEPARTMENTS
+	WHERE DEPARTMENT_NAME = "IT"
+);
+
