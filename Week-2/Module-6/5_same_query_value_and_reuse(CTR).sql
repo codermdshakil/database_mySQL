@@ -1,0 +1,12 @@
+-- Common Table Expression (CTE)
+
+
+WITH TMP AS
+(
+SELECT * 
+FROM EMPLOYEES
+LIMIT 5
+)
+
+SELECT * FROM TMP;
+
