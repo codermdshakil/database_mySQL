@@ -1,3 +1,6 @@
+
+-- কোণ কোণ EMPLOYEE তাদের MANAGER থেকে বেশি SALARY পায়
+
 SELECT * 
 FROM EMPLOYEES AS EMP 
 -- এইখানে আমার সালারই  যা ম্যানেজার সালারি এর সাথে Compare করা  হচ্ছে 
