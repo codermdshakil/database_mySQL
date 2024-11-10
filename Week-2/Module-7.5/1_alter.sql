@@ -11,7 +11,7 @@ insert into person(id, name, email) values (1, "Shakil", "ahmed@gmail.com");
 insert into person(id, name, email) values (2, "Nadim", "nadim@gmail.com");
 
 alter table person change column email email varchar(100);
-alter table person change column name student_name varchar(50);
+alter table person change column name student_name varchar(50); 
 alter table person add column address varchar(150);
 
 insert into person(id, student_name, email, address) values (3, "Mafu", "mafu@gmail.com", "Delgraw");
