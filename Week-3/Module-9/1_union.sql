@@ -1,0 +1,12 @@
+
+-- UNION returns every value one time from 2 set 
+
+SELECT * 
+FROM EMPLOYEES
+WHERE SALARY > 15000
+
+UNION
+
+SELECT * 
+FROM EMPLOYEES
+WHERE DEPARTMENT_ID = 100;
