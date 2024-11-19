@@ -1,85 +1,133 @@
-create DATABASE employeeDB;
-use employeeDB;
+CREATE DATABASE EMPLOYEEDB;
 
-create table department(
-	department_id int,
-    department_name varchar(50)
+USE EMPLOYEEDB;
+
+CREATE TABLE DEPARTMENT(
+	DEPARTMENT_ID INT,
+    DEPARTMENT_NAME VARCHAR(50)
 );
 
-ALTER TABLE department
-ADD Constraint PRIMARY KEY(department_id);
+ALTER TABLE DEPARTMENT
+ADD CONSTRAINT PRIMARY KEY (DEPARTMENT_ID);
 
-create table employees (
-	employee_id int primary key,
-    name varchar(100),
-    phone varchar(15),
-    hire_date DATE default(current_date()),
-    salary DECIMAL(10,2),
-    department_id INT,
-    CONSTRAINT fk_employee_dept FOREIGN KEY(department_id) References department(department_id)
+CREATE TABLE EMPLOYEES(
+
+EMPLOYEE_ID INT PRIMARY KEY,
+NAME VARCHAR(100),
+PHONE VARCHAR(15),
+HIRE_DATE DATE DEFAULT(current_date()),
+SALARY DECIMAL(10,2),
+DEPARTMENT_ID INT,
+
+-- ADD FOREIGN KEY
+CONSTRAINT FK_EMPLOYEE_DEPT FOREIGN KEY (DEPARTMENT_ID) REFERENCES DEPARTMENT(DEPARTMENT_ID)
+
 );
 
-ALTER TABLE employees
-DROP Foreign key fk_employee_dept;
+INSERT INTO EMPLOYEES (EMPLOYEE_ID, NAME, EMAIL, PHONE, HIRE_DATE, SALARY, DEPARTMENT_ID) VALUES
+(1, 'John Doe', 'johndoe@example.com', '123-456-7890', '2021-01-15', 55000.00, 1),
+(2, 'Jane Smith', 'janesmith@example.com', '123-456-7891', '2022-03-10', 62000.00, 2),
+(3, 'Michael Johnson', 'michaelj@example.com', '123-456-7892', '2020-07-22', 72000.00, 1),
+(4, 'Emily Davis', 'emilyd@example.com', '123-456-7893', '2021-10-05', 50000.00, 3),
+(5, 'Chris Brown', 'chrisb@example.com', '123-456-7894', '2019-06-18', 80000.00, 5),
+(6, 'Patricia Wilson', 'patwilson@example.com', '123-456-7895', '2022-02-20', 54000.00, 2),
+(7, 'Robert Miller', 'robertm@example.com', '123-456-7896', '2021-05-14', 63000.00, 3),
+(8, 'Linda Martinez', 'lindam@example.com', '123-456-7897', '2023-04-09', 51000.00, 1),
+(9, 'James Anderson', 'jamesa@example.com', '123-456-7898', '2020-11-23', 67000.00, 2),
+(10, 'Susan Taylor', 'susant@example.com', '123-456-7899', '2018-09-12', 90000.00, 4),
+(11, 'David Thomas', 'davidth@example.com', '123-456-7800', '2021-12-01', 60000.00, 3),
+(12, 'Barbara Jackson', 'barbaraj@example.com', '123-456-7801', '2019-03-25', 75000.00, 2),
+(13, 'Daniel White', 'danielw@example.com', '123-456-7802', '2022-07-08', 56000.00, 3),
+(14, 'Jessica Harris', 'jessicah@example.com', '123-456-7803', '2023-01-16', 58000.00, 1),
+(15, 'Matthew Martin', 'matthewm@example.com', '123-456-7804', '2020-05-30', 72000.00, 2),
+(16, 'Karen Thompson', 'karent@example.com', '123-456-7805', '2021-08-19', 48000.00, 1),
+(17, 'Paul Garcia', 'paulg@example.com', '123-456-7806', '2022-10-11', 69000.00, 3),
+(18, 'Nancy Lewis', 'nancyl@example.com', '123-456-7807', '2018-12-05', 87000.00, 5),
+(19, 'Steven Clark', 'stevenc@example.com', '123-456-7808', '2020-04-15', 56000.00, 2),
+(20, 'Sarah Robinson', 'sarahr@example.com', '123-456-7809', '2023-06-25', 51000.00, 1);
 
-ALTER table employees
-ADD COLUMN email varchar(250);
+-- HERE WILL SENT ERROR 1451 (YOU CAN'T DELETE FOREIGN KEY THAT USE CHILDREN) IF WE WANT TO UPDATE
+-- SOLUTION IS WE NEED TO DELETE FOREIGN KEY OF EMPLOYEES
+-- DELETE EMPLOYEE FOREIGN KEY
+ALTER TABLE EMPLOYEES
+DROP FOREIGN KEY FK_EMPLOYEE_DEPT;
 
-INSERT INTO department(department_id, department_name)
+
+INSERT INTO EMPLOYEES
+VALUES (21,"MR.X", "0182893471", "2024-10-10", "40000", 4, "MR@GMAIL.COM"); 
+-- 1. 7 DON'T HAVE DEPARTMENT ID THAT WHY FAIL YOU HAVE TO PUT DEPARTMENT ID THAT HAS EXITS
+
+-- ADD RECORD WITH OUT HIRE_DATE USE DEFAULT DATE
+INSERT INTO EMPLOYEES (EMPLOYEE_ID, NAME, PHONE, SALARY, DEPARTMENT_ID, EMAIL)
+VALUES (22,"MR.Y", "0182893471", "40000", 4, "MR@GMAIL.COM"); 
+
+ 
+
+ALTER TABLE EMPLOYEES
+ADD COLUMN EMAIL VARCHAR(250);
+
+INSERT INTO DEPARTMENT(DEPARTMENT_ID, DEPARTMENT_NAME) 
 VALUES
-  (1, 'Sales'),
-  (2, 'Marketing'),
-  (3, 'Human Resources'),
-  (4, 'Finance'),
-  (5, 'IT');
-  
-set SQL_SAFE_UPDATES = 0;
-update department
-set department_id = 7
-where department_name = 'Finance';
+(1, 'Sales'),
+(2,'Marketing'),
+(3,'Human Resources'),
+(4, 'Finance'),
+(5, "IT");
+
+-- SQL SAFE MODE OFF - NEED WHEN WE DON'T USE PRIMARY KEY TO DELETE OR UPDATE DATA
+SET SQL_SAFE_UPDATES = 0;
+UPDATE DEPARTMENT
+SET DEPARTMENT_ID = 7
+WHERE DEPARTMENT_NAME = 'FINANCE';
+
+-- AFTER UPDATE ON SAFE MODE
 SET SQL_SAFE_UPDATES = 1;
 
-ALTER TABLE employees
-ADD Foreign Key(department_id)
-REFERENCES department(department_id)
-ON UPDATE CASCADE
-ON DELETE CASCADE;
-  
-INSERT INTO employees(employee_id, name, email, phone, hire_date, salary, department_id)
-VALUES
-  (1, 'John Smith', 'john@example.com', '1234567890', '2022-01-01', 5000.00, 1),
-  (2, 'Emma Johnson', 'emma@example.com', '0987654321', '2022-02-01', 6000.00, 2),
-  (3, 'Michael Davis', 'michael@example.com', '5555555555', '2022-03-01', 5500.00, 1),
-  (4, 'Sarah Wilson', 'sarah@example.com', '9876543210', '2022-04-01', 4500.00, 3),
-  (5, 'David Thompson', 'david@example.com', '4444444444', '2022-05-01', 5200.00, 5),
-  (6, 'Emily Anderson', 'emily@example.com', '1111111111', '2022-06-01', 4800.00, 2),
-  (7, 'Christopher Clark', 'christopher@example.com', '7777777777', '2022-07-01', 6200.00, 3),
-  (8, 'Olivia Parker', 'olivia@example.com', '2222222222', '2022-08-01', 5100.00, 1),
-  (9, 'Daniel Evans', 'daniel@example.com', '6666666666', '2022-09-01', 5400.00, 2),
-  (10, 'Sophia Turner', 'sophia@example.com', '3333333333', '2022-10-01', 5900.00, 4),
-  (11, 'Matthew Wilson', 'matthew@example.com', '9999999999', '2022-11-01', 4700.00, 3),
-  (12, 'Ava Thomas', 'ava@example.com', '8888888888', '2022-12-01', 5300.00, 2),
-  (13, 'James Brown', 'james@example.com', '7777777777', '2023-01-01', 6100.00, 3),
-  (14, 'Mia Martin', 'mia@example.com', '6666666666', '2023-02-01', 5200.00, 1),
-  (15, 'Benjamin Rodriguez', 'benjamin@example.com', '5555555555', '2023-03-01', 4800.00, 2),
-  (16, 'Charlotte Scott', 'charlotte@example.com', '4444444444', '2023-04-01', 5700.00, 1),
-  (17, 'Davidson Turner', 'davidson@example.com', '3333333333', '2023-05-01', 5100.00, 3),
-  (18, 'Scarlett White', 'scarlett@example.com', '2222222222', '2023-06-01', 5900.00, 5),
-  (19, 'Henry Adams', 'henry@example.com', '1111111111', '2023-07-01', 5300.00, 2),
-  (20, 'Amelia Green', 'amelia@example.com', '9999999999', '2023-08-01', 5500.00, 3);
-  
-  INSERT into employees
-  Values (21, "Mr. X", "039843984", "2024-10-10", "40000", 4, "mr.x@example.com");
-  
-  INSERT into employees (employee_id, name, email, phone, salary, department_id)
-  values(22, "Mr. Y", "mr.y@example.com", "098934798", "30000", 4);
-  
-  update employees
-  set department_id = 4
-  where employee_id = 22;
-  
-  delete FROM department
-  where department_id = 2;
-  
-  select * from department;
-  select * from employees;
+-- IF WE DONT'T WANT TO DELETE FOREIGN KEY BUT STILL WE WANT TO UPDATE EMPLOYEE_ID OR DEPARTMENT_ID SO WHAT SHOULD I DO?
+-- SOLUTION IS HERE
+
+-- ADD FOREIGN KEY
+ALTER TABLE EMPLOYEES
+ADD CONSTRAINT FK_EMPLOYEE
+FOREIGN KEY (DEPARTMENT_ID)
+REFERENCES DEPARTMENT(DEPARTMENT_ID)
+ON UPDATE CASCADE -- IF I CAHNGE DEPARTMENT_ID 4 TO 7 ALL EMPLOYEES DEPARTMENT_ID WILL AUTOMATICALLY CHANGED 4 TO 7
+ON DELETE CASCADE; -- IF WE DELETE DEPARTMENT_ID ALL DEPARTMENT_ID EMPLOYEES WILL BE DELETED
+
+
+-- WANT TO UPDATE DEPARTMENT ID 4 TO 7
+UPDATE EMPLOYEES
+SET DEPARTMENT_ID = 4
+WHERE EMPLOYEE_ID = 22;
+
+
+-- DELETE DEPARTMENT_ID 2 DELETE MARKETING EMPLOYEES ALSO
+DELETE FROM DEPARTMENT
+WHERE DEPARTMENT_ID = 2;
+
+
+-- Summary
+
+
+-- PRIMARY KEY
+-------------------
+-- DATABASE INDEX
+-- QUERY FAST
+
+-- FOREIGN KEY
+----------------
+-- RELATION ONE TO ANOTHER DATABASE
+-- IF WE DELETE PARENT ALSO DELETE CHILDRENS
+
+-- ON UPDATE CASCADE - parent update also update childrens
+-- ON DELETE CASCADE  - parent delete also delete childrens
+
+-- SAFE MODE ON WHEN WE NEED TO DELETE OR UPDATE WITHOUT PRIMARY KEY WE NEED TO ON SAFE MODE MIND IT AFTER USING SAGE MODE ON AND AFTER WORK YOU SHOULD OFF SAFE MODE
+-- Example: 
+-- SET SQL_SAFE_UPDATES = 0;
+-- UPDATE DEPARTMENT
+-- SET DEPARTMENT_ID = 7
+-- WHERE DEPARTMENT_NAME = 'FINANCE';
+-- AFTER UPDATE ON SAFE MODE
+-----------------------------
+-- SET SQL_SAFE_UPDATES = 1;
